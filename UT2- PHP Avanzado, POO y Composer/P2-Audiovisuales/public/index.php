@@ -39,7 +39,7 @@ $arrayOrden = ['nombre','disponibles'];
 if (!categoriaValida($categoria, $categorias)) {
     $aviso = 'La categoría seleccionada no es valida';
     $categoria = '';
-}; ///Puede que necesito arreglo
+}; ///Puede que necesite arreglo
 
 // TODO E4: llamar al filtrado y ordenación; preparar el resumen y las etiquetas del listado.
 $visibles = [];
