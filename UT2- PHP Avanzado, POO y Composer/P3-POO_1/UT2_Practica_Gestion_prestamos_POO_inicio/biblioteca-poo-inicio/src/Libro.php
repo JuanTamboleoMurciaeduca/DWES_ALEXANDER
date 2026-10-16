@@ -20,7 +20,19 @@ final class Libro
             $this->paginas = 1;
         }
     }
+
+    public function prestar() : void {
+        $this->disponible = false;
+    }
+
+    public function devolver() : void {
+        $this->disponible = true;
+    }
+
+    public function ficha() : string {
+        return $this->titulo . '/' .  ($this->autor?->nombre ?? 'Sin autor') . '/' . $this->categoria->nombre . '/' . $this->paginas;
+    }
     // Fase 2: constructor con promoción de propiedades públicas tipadas. ///Hecho
     // Fase 3: título sin espacios en los extremos y valores por defecto si no es válido o las páginas no son positivas.///Hecho
-    // Fase 5: prestar(), devolver() y ficha().
+    // Fase 5: prestar(), devolver() y ficha(). ///Hecho
 }
