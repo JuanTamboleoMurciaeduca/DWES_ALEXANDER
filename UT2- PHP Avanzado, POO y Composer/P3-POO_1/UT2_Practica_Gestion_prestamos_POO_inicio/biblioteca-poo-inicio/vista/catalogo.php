@@ -1,7 +1,7 @@
 <?php
 // HTML facilitado. Recibe las variables preparadas en public/index.php.
 // Se usa htmlspecialchars para mostrar texto sin interpretarlo como HTML.
-function e(string $texto): string
+function e(string $texto): string //Funcion que permite escribir texto en HTML escapandolo
 {
     return htmlspecialchars($texto, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 }
