@@ -30,3 +30,8 @@ var_dump($libro->disponible);
 $libro->prestar();
 
 var_dump($libro->disponible);
+
+//$this y this se usan en ambos lenguajes para llapar a la propia clase
+//El punto equivale a -> para acceder a la propiedades o funciones de la clase en la que se usa
+//Los constructores funcionan de la misma manera, indicando los argumentos entre los parentesis y haciendo los cambios entre las llaves
+//En PHP las clases son publicas por defecto

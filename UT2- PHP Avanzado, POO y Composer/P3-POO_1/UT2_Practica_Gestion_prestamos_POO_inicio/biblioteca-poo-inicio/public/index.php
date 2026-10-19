@@ -93,17 +93,18 @@ uasort($visibles,
 
 // Fase 6.3: resumen del catálogo completo, antes de filtrar.
 // Completa disponibles con array_filter y paginas con array_reduce.
-$resumen = ['total' => count($libros), 
-'disponibles' => count(array_filter($libros, fn (Libro $l) => $l->disponible == 1)), 
-'paginas' => array_reduce($libros,
+$resumen = ['total' => count($visibles), 
+'disponibles' => count(array_filter($visibles, fn (Libro $l) => $l->disponible == 1)), 
+'paginas' => array_reduce($visibles,
     fn (int $a, Libro $b) => $a + $b->paginas,
     0)
 ];
 
 // Fase 6.3: crea las fichas de los libros visibles con array_map.
-$etiquetas = [];
-array_map
-
+$etiquetas = array_map(
+    fn (Libro $l) => $l->ficha(),
+    $visibles
+);
 
 // Fase 6.3: busca los ids 30 y 999 con array_find y añade mensajes.
 
