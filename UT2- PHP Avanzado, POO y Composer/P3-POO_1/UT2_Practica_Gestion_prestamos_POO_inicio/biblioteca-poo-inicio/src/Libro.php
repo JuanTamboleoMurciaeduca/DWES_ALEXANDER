@@ -12,6 +12,7 @@ final class Libro
         public bool $disponible = true
     ){
         $this->titulo = trim($this->titulo);
+        
         if ($this->titulo === '') {
             $this->titulo = 'Sin titulo';
         }

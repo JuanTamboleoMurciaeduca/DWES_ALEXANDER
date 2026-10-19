@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 require_once __DIR__ . '/../src/Autor.php';
@@ -13,7 +14,7 @@ foreach ($datos as $registro) {
     $categoria = new Categoria($registro['categoria']);
     $titulo = $registro['titulo'];
     $id = $registro['id'];
-    $disponible = $registro['disponible']; 
+    $disponible = $registro['disponible'];
     $paginas = $registro['paginas'];
     $libros[] = new Libro($id, $titulo, $paginas, $autor, $categoria, $disponible);
     // Datos del registro, objeto Autor o null y Categoria.
@@ -26,29 +27,29 @@ $mensajes = [];
 
 $dune = $libros[0];
 $mensajes[] = 'Disponible: '
- . ($dune->disponible ? 'true' : 'false');
+    . ($dune->disponible ? 'true' : 'false');
 
 $otro = $libros[2];
 $mensajes[] = 'Disponible: '
- . ($otro->disponible ? 'true' : 'false');
+    . ($otro->disponible ? 'true' : 'false');
 
 $dune->prestar();
 $mensajes[] = 'Disponible: '
- . ($dune->disponible ? 'true' : 'false');
+    . ($dune->disponible ? 'true' : 'false');
 $mensajes[] = 'Disponible: '
- . ($otro->disponible ? 'true' : 'false');
+    . ($otro->disponible ? 'true' : 'false');
 
 $dune->devolver();
 $mensajes[] = 'Disponible: '
- . ($dune->disponible ? 'true' : 'false');
+    . ($dune->disponible ? 'true' : 'false');
 $mensajes[] = 'Disponible: '
- . ($otro->disponible ? 'true' : 'false');
+    . ($otro->disponible ? 'true' : 'false');
 
 $mensajes[] = 'Ficha: '
- . ($dune->ficha());
+    . ($dune->ficha());
 
 $mensajes[] = 'Ficha: '
- . ($otro->ficha());
+    . ($otro->ficha());
 
 
 $alias = $dune;
@@ -58,7 +59,7 @@ $otroLibro = $dune;
 $mensajes[] = 'otroLibro = Dune?: ' . ($otroLibro === $dune ? 'true' : 'false');
 $dune->devolver();
 
- // Lectura del formulario facilitada. La búsqueda conserva el texto escrito.
+// Lectura del formulario facilitada. La búsqueda conserva el texto escrito.
 $entrada = $_GET['q'] ?? '';
 $entradaBusqueda = is_string($entrada) ? $entrada : '';
 $soloDisponibles = isset($_GET['disponibles']);
@@ -70,18 +71,20 @@ $orden = is_string($ordenEntrada)
 // Fase 6.1: normaliza la búsqueda y filtra con array_filter.
 $busqueda = mb_strtolower($entradaBusqueda, 'UTF-8');
 
-$libro = array_filter($libros,
-    fn (Libro $l) =>
-        str_contains(mb_strtolower(trim($l->titulo), 'UTF-8'), $busqueda) || $busqueda === ''
-        && (!$soloDisponibles || $l->disponible == 1)
+$libro = array_filter(
+    $libros,
+    fn(Libro $l) =>
+    str_contains(mb_strtolower(trim($l->titulo), 'UTF-8'), $busqueda)
+        && (!$soloDisponibles || $l->disponible)
 );
 
 $visibles = $libro;
 
 // Fase 6.2: ordena $visibles mediante usort y <=>.
 
-uasort($visibles,
-    function (Libro $a, Libro $b) use ($orden):int {
+uasort(
+    $visibles,
+    function (Libro $a, Libro $b) use ($orden): int {
         if ($orden === 'paginas') {
             $compare = $a->paginas <=> $b->paginas;
         } elseif ($orden === 'titulo') {
@@ -93,30 +96,35 @@ uasort($visibles,
 
 // Fase 6.3: resumen del catálogo completo, antes de filtrar.
 // Completa disponibles con array_filter y paginas con array_reduce.
-$resumen = ['total' => count($libros), 
-'disponibles' => count(array_filter($libros, fn (Libro $l) => $l->disponible == 1)), 
-'paginas' => array_reduce($libros,
-    fn (int $a, Libro $b) => $a + $b->paginas,
-    0)
+$resumen = [
+    'total' => count($libros),
+    'disponibles' => count(array_filter($libros, fn(Libro $l) => $l->disponible)),
+    'paginas' => array_reduce(
+        $libros,
+        fn(int $a, Libro $b) => $a + $b->paginas,
+        0
+    )
 ];
 
 // Fase 6.3: crea las fichas de los libros visibles con array_map.
 $etiquetas = array_map(
-    fn (Libro $l) => $l->ficha(),
+    fn(Libro $l) => $l->ficha(),
     $visibles
 );
 
 // Fase 6.3: busca los ids 30 y 999 con array_find y añade mensajes.
 
-$libro30 = array_find($libros,
-    fn (Libro $l) => $l->id === 30
+$libro30 = array_find(
+    $libros,
+    fn(Libro $l) => $l->id === 30
 );
-$libro999 = array_find($libros,
-    fn (Libro $l) => $l->id === 999
+$libro999 = array_find(
+    $libros,
+    fn(Libro $l) => $l->id === 999
 );
 
-$mensajes[] = 'id: 30 -> ' . $libro30->ficha() ;
-$mensajes[] = 'id: 999 -> ' . ($libro999? $libro999->ficha() : 'No existe el libro');
+$mensajes[] = 'id: 30 -> ' . $libro30->ficha();
+$mensajes[] = 'id: 999 -> ' . ($libro999 ? $libro999->ficha() : 'No existe el libro');
 
 
 require __DIR__ . '/../vista/catalogo.php';
