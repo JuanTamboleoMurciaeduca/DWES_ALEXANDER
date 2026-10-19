@@ -108,4 +108,15 @@ $etiquetas = array_map(
 
 // Fase 6.3: busca los ids 30 y 999 con array_find y añade mensajes.
 
+$libro30 = array_find($libros,
+    fn (Libro $l) => $l->id === 30
+);
+$libro999 = array_find($libros,
+    fn (Libro $l) => $l->id === 999
+);
+
+$mensajes[] = 'id: 30 -> ' . $libro30->ficha() ;
+$mensajes[] = 'id: 999 -> ' . ($libro999? $libro999->ficha() : 'No existe el libro');
+
+
 require __DIR__ . '/../vista/catalogo.php';
