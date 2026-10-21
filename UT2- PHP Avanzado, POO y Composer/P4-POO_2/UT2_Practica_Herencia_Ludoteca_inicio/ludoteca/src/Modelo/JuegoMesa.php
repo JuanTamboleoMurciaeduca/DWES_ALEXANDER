@@ -1,30 +1,35 @@
 <?php
+
 declare(strict_types=1);
 
 // TODO M5. Especializa JuegoMesa con su constructor, plazo y ficha.
-class JuegoMesa extends Juego {
+class JuegoMesa extends Juego
+{
     private int $jugadores;
 
     public function __construct(
         int $id,
         string $nombre,
-        int $Njugadores
-    ){
+        int $jugadores
+    ) {
         parent::__construct($id, $nombre);
-        if ($Njugadores <= 0) {
+        if ($jugadores <= 0) {
             throw new InvalidArgumentException('Numero de jugadores no valido');
         }
-        $this->jugadores = $Njugadores;
+        $this->jugadores = $jugadores;
     }
 
-    public function jugadores(): int {
+    public function jugadores(): int
+    {
         return $this->jugadores;
     }
-    public function plazoMaximo(): int{
+    public function plazoMaximo(): int
+    {
         return 14;
     }
 
-    public function ficha(): string {
+    public function ficha(): string
+    {
         return parent::ficha() . ' . Jugadores: ' . $this->jugadores;
     }
 }

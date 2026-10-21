@@ -1,44 +1,53 @@
 <?php
+
 declare(strict_types=1);
 
 // TODO M4. Implementa la base abstracta Juego y las operaciones del préstamo.
-abstract class juego implements Prestable {
+abstract class juego implements Prestable
+{
     use generarEtiqueta;
-    
+
     private int $id;
     private string $nombre;
     private bool $prestado = false;
     private int $dias = 0;
 
-    public function __construct(int $nId, string $nombre) {
-        if ($nId <= 0 && trim($nombre) === '') {
+    public function __construct(int $id, string $nombre)
+    {
+        if ($id <= 0 || trim($nombre) === '') {
             throw new InvalidArgumentException('Argumentos invalidos');
         }
-        $this->id = $nId;
+        $this->id = $id;
         $this->nombre = trim($nombre);
     }
 
-    public function id():int{
+    public function id(): int
+    {
         return $this->id;
     }
-    public function nombre(): string{
+    public function nombre(): string
+    {
         return $this->nombre;
     }
-    public function prestado(): bool{
+    public function prestado(): bool
+    {
         return $this->prestado;
     }
-    public function dias(): int {
+    public function dias(): int
+    {
         return $this->dias;
     }
 
-    abstract public function plazoMaximo():int;
+    abstract public function plazoMaximo(): int;
 
-    public function ficha(): string {
+    public function ficha(): string
+    {
         $disponible = ($this->prestado ? 'No disponible' : 'Disponible');
         return $this->etiqueta() . ' . ' . $disponible . ' . ' . $this->dias;
     }
 
-    public function prestar(int $dias): void {
+    public function prestar(int $dias): void
+    {
         if ($dias <= 0) {
             throw new InvalidArgumentException('Se supera el plazo máximo del juego');
         }
@@ -52,7 +61,8 @@ abstract class juego implements Prestable {
         $this->dias = $dias;
     }
 
-    public function renovar (int $diasExtra): void {
+    public function renovar(int $diasExtra): void
+    {
         if ($diasExtra <= 0) {
             throw new InvalidArgumentException('Los días deben ser positivos');
         }
@@ -65,7 +75,8 @@ abstract class juego implements Prestable {
         $this->dias += $diasExtra;
     }
 
-    public function devolver():void {
+    public function devolver(): void
+    {
         if (!$this->prestado) {
             throw new PrestamoException('Juego no prestado');
         }
