@@ -1,39 +1,38 @@
 <?php
 
-abstract class Alquiler {
-
-    private readonly int $id;
-    private string $cliente;
-    private int $dias;
-    private EstadoAlquiler $estado;
+abstract class Alquiler
+{
+    // Mejor promoción
     public function __construct(
-        int $id,
-        string $cliente,
-        int $dias,
-        EstadoAlquiler $estado
-    ){
-        if ($id<0 || trim($cliente) === '' || $dias<1 || $dias > 7){
+        private readonly int $id,
+        private string $cliente,
+        private int $dias,
+        private EstadoAlquiler $estado
+    ) {
+        if ($id <= 0 || trim($cliente) === '' || $dias < 1 || $dias > 7) {
+            // Suele ser mejor no poner un solo throw y aclarar qué falla en concreto.
             throw new InvalidArgumentException('Argumentos inválidos');
         }
-        $this->id = $id;
         $this->cliente = trim($cliente);
-        $this->dias = $dias;
-        $this->estado = $estado;
     }
 
-    public function id(): int{
+    public function id(): int
+    {
         return $this->id;
     }
 
-    public function cliente(): string{
+    public function cliente(): string
+    {
         return $this->cliente;
     }
 
-    public function dias(): int{
+    public function dias(): int
+    {
         return $this->dias;
     }
 
-    public function estado(): EstadoAlquiler{
+    public function estado(): EstadoAlquiler
+    {
         return $this->estado;
     }
 
@@ -41,20 +40,23 @@ abstract class Alquiler {
 
     abstract protected function tarifaDiaria(): int;
 
-    public function importe(): int{
+    public function importe(): int
+    {
         return $this->dias() * $this->tarifaDiaria();
     }
 
-    public function iniciar(): void{
-        if ($this->estado == EstadoAlquiler::Reservado){
+    public function iniciar(): void
+    {
+        if ($this->estado == EstadoAlquiler::Reservado) {
             $this->estado = EstadoAlquiler::Activo;
         } else {
             throw new AlquilerException('Alquiler no reservado');
         }
     }
 
-    public function finalizar(): void{
-        if ($this->estado == EstadoAlquiler::Activo){
+    public function finalizar(): void
+    {
+        if ($this->estado == EstadoAlquiler::Activo) {
             $this->estado = EstadoAlquiler::Finalizado;
         } else {
             throw new AlquilerException('Alquiler no activo');

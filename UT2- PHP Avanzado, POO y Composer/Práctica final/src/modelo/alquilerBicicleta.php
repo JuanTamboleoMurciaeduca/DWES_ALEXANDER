@@ -10,11 +10,12 @@ class AlquilerBicicleta extends Alquiler {
         parent::__construct($id, $cliente, $dias, $estado);
     }
 
-    public function modalidad(){
+    // Falta el tipo de retorno -0,5
+    public function modalidad(): string {
         return 'bicicleta';
     }
 
-    public function tarifaDiaria(){
+    public function tarifaDiaria(): int{
         return 500;
     }
 }

@@ -10,11 +10,11 @@ class AlquilerPatinete extends Alquiler {
         parent::__construct($id, $cliente, $dias, $estado);
     }
 
-    public function modalidad(){
+    public function modalidad(): string {
         return 'patinete';
     }
 
-    public function tarifaDiaria(){
+    public function tarifaDiaria(): int{
         return 1000;
     }
 }
